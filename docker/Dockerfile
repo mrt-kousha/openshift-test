@@ -1,6 +1,4 @@
-
-
-FROM docker.io/library/python:latest
+FROM registry.docker.ir/python
 
 # By default, listen on port 8081
 EXPOSE 8081/tcp
