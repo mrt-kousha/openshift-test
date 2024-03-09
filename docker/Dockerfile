@@ -1,4 +1,4 @@
-FROM registry.docker.ir/python
+FROM quay.io/fedora/python-310
 
 # By default, listen on port 8081
 EXPOSE 8081/tcp
