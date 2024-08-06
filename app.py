@@ -1,26 +1,48 @@
-from flask import Flask
+from flask import Flask, render_template, request
 import os
-import socket
-from contextlib import closing
-from flask import request
+from socket import socket, AF_INET, SOCK_STREAM
+from datetime import datetime, timedelta
 
-def check_socket(host, port):
-    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
-        if sock.connect_ex((host, port)) == 0:
-            return ("is open")
-        else:
-            return ("is not open")
+def check_socket(host, portRange):
+    hostAddress = host  # loopback address for scanning localhost
+      # port scan start time
+    data = []  # lists open port strings
+    try:
+        From,To = portRange.split('-')
+    except:
+        From=portRange
+        To=portRange
+    try:   
+        for port in range(int(From), int(To)+1):
+            sock = socket(AF_INET, SOCK_STREAM)
+            sock.settimeout(2)  # scan for 2 secs
+            result = sock.connect_ex((hostAddress, port))
+            if result == 0:
+                data.append(f'Port {port}: OPEN')  # Port __: OPEN
+            else:
+                data.append(f'Port {port}: NOT OPEN')
+            sock.close()
+    except OSError as e:
+        if e.errno != errno.ENOENT:
+            print(f'{e}')
+            sys.exit()
+    return data
+
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
+    start_time = datetime.now()
     host = request.args.get('host')
     port = request.args.get('port')
     print(host, port)
-    result = check_socket(host, int(port))
-    return "  {} : {} {}".format(host, port, result)
+    result = check_socket(host, port)
+    end_time = datetime.now()  # port scan ends: mark time
+    duration = end_time - start_time  # port scan duration
+    result.append(f'Scan duration: {round(duration.total_seconds(), 2)} secs')
+    return render_template('portscan.html', data=result, address=host)
 
 if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
     port = int(port)
-    app.run(port=port,host='0.0.0.0')
+    app.run(port=port,host='0.0.0.0',debug=True)
