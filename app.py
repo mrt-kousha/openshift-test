@@ -3,7 +3,7 @@ import os
 import socket
 from contextlib import closing
 from flask import request
-   
+
 def check_socket(host, port):
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         if sock.connect_ex((host, port)) == 0:
@@ -16,8 +16,9 @@ app = Flask(__name__)
 def hello():
     host = request.args.get('host')
     port = request.args.get('port')
+    print(host, port)
     result = check_socket(host, int(port))
-    return "Hello World! (MRT)\n {}:{} {}".format(host, port, result)
+    return "  {} : {} {}".format(host, port, result)
 
 if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
