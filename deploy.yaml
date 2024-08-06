@@ -3,6 +3,8 @@ apiVersion: apps/v1
 metadata:
   name: my-python
 spec:
+  nodeSelector: 
+    typeA: infra
   replicas: 1
   selector:
     matchLabels:
