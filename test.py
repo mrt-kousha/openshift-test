@@ -12,6 +12,6 @@ def check_socket(host, port):
 
 
 
-host="10.192.133.50"
-port=222
+host="192.168.200.50"
+port=22
 check_socket(host, port)

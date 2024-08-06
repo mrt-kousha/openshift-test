@@ -23,7 +23,7 @@ def check_socket(host, portRange):
                 data.append(f'Port {port}: NOT OPEN')
             sock.close()
     except OSError as e:
-        if e.errno != errno.ENOENT:
+        if e.errno != e.errno.ENOENT:
             print(f'{e}')
             sys.exit()
     return data
