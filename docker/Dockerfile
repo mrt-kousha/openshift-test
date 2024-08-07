@@ -57,4 +57,17 @@ RUN apk -U upgrade \
     && rm -rf /var/cache/apk/* \
     && echo 'export PS1="[network-tools]\$ "' >> /root/.bash_profile
 
-CMD ["/bin/bash", "--login"]
+
+EXPOSE 8081/tcp
+ENV FLASK_PORT=8081
+WORKDIR /projects
+COPY . .
+RUN \
+  if [ -f requirements.txt ]; \
+    then pip install -r requirements.txt; \
+  elif [ `ls -1q *.txt | wc -l` == 1 ]; \
+    then pip install -r *.txt; \
+  fi
+
+
+CMD [ "python", "./app.py" ]

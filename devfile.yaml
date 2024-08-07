@@ -1,4 +1,4 @@
-schemaVersion: 2.0.0
+schemaVersion: 2.2.0
 metadata:
   name: python
   projectType: Python
@@ -20,6 +20,7 @@ metadata:
 parent:
   id: python
   registryUrl: 'https://registry.devfile.io'
+  version: 2.1.0
 components:
   - name: image-build
     image:
@@ -31,8 +32,8 @@ components:
   - name: kubernetes-deploy
     attributes:
       deployment/replicas: 1
-      deployment/cpuRequest: 500m
-      deployment/memoryRequest: 4096Mi
+      deployment/cpuRequest: 10m
+      deployment/memoryRequest: 50Mi
       deployment/container-port: 8081
     kubernetes:
       uri: deploy.yaml
