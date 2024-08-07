@@ -4,6 +4,12 @@ FROM alpine:${ALPINE_TAG}
 LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
     description="A Docker image with various network tools pre-installed."
 
+
+RUN apk update && \
+    apk add --no-cache wget && \
+    apk add --no-cache build-base libffi-dev openssl-dev && \
+    apk add python3 py3-pip gcc musl-dev
+
 RUN apk -U upgrade \
     && apk add --no-cache \
         py3-pip \
@@ -55,14 +61,18 @@ RUN apk -U upgrade \
         arp-scan \
         inetutils-telnet \
         kcat \
+
     && rm -rf /var/cache/apk/* \
     && echo 'export PS1="[network-tools]\$ "' >> /root/.bash_profile
+
+
 
 USER root
 EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
 WORKDIR /projects
 COPY . .
-RUN pip install --no-cache-dir Flask
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD [ "python", "./app.py" ]
