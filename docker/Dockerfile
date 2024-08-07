@@ -58,11 +58,11 @@ RUN apk -U upgrade \
     && rm -rf /var/cache/apk/* \
     && echo 'export PS1="[network-tools]\$ "' >> /root/.bash_profile
 
-
+USER root
 EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
 WORKDIR /projects
 COPY . .
-RUN pip install -r requirements.txt
+RUN pip install Flask
 
 CMD [ "python", "./app.py" ]
