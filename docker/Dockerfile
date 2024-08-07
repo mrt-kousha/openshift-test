@@ -63,6 +63,6 @@ EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
 WORKDIR /projects
 COPY . .
-RUN pip install Flask
+RUN pip install --no-cache-dir Flask
 
 CMD [ "python", "./app.py" ]
