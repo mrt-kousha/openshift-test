@@ -3,8 +3,6 @@ apiVersion: apps/v1
 metadata:
   name: my-python
 spec:
-  nodeSelector: 
-    typeA: infra
   replicas: 1
   selector:
     matchLabels:
@@ -19,8 +17,12 @@ spec:
           image: python-image:latest
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8081
               protocol: TCP
+          resources:
+            requests:
+              memory: "4096Mi"
+              cpu: "500m"
 ---
 kind: Service
 apiVersion: v1
@@ -28,9 +30,9 @@ metadata:
   name: my-python
 spec:
   ports:
-    - name: http-8080
-      port: 80
+    - name: http-8081
+      port: 8081
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8081
   selector:
     app: python-app

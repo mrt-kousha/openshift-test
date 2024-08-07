@@ -16,11 +16,10 @@ metadata:
     - Flask
   supportUrl: https://github.com/devfile-samples/devfile-support#support-information
   attributes:
-    alpha.dockerimage-port: 8080
+    alpha.dockerimage-port: 8081
 parent:
   id: python
   registryUrl: 'https://registry.devfile.io'
-  version: 2.1.0
 components:
   - name: image-build
     image:
@@ -34,12 +33,12 @@ components:
       deployment/replicas: 1
       deployment/cpuRequest: 500m
       deployment/memoryRequest: 4096Mi
-      deployment/container-port: 8080
+      deployment/container-port: 8081
     kubernetes:
       uri: deploy.yaml
       endpoints:
-        - name: http-8080
-          targetPort: 8080
+        - name: http-8081
+          targetPort: 8081
           path: /
           secure: true
 commands:
