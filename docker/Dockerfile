@@ -6,6 +6,7 @@ LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
 
 RUN apk -U upgrade \
     && apk add --no-cache \
+        python3-pip
         apache2-utils \
         bash \
         bash-completion \
