@@ -6,6 +6,7 @@ LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
 
 RUN apk -U upgrade \
     && apk add --no-cache \
+        py3-pip \
         apache2-utils \
         bash \
         bash-completion \
@@ -62,6 +63,12 @@ EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
 WORKDIR /projects
 COPY . .
+RUN \
+  if [ -f requirements.txt ]; \
+    then pip install -r requirements.txt; \
+  elif [ `ls -1q *.txt | wc -l` == 1 ]; \
+    then pip install -r *.txt; \
+  fi
 
 
-CMD [ "python" ]
+CMD [ "python", "./app.py" ]
