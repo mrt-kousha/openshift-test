@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
 USER root
-RUN microdnf update && microdnf install sudo iputils hostname findutils less nano && microdnf clean all
+RUN yum update && yum install sudo iputils hostname findutils less nano && yum clean all 
 # By default, listen on port 8081
 EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
