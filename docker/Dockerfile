@@ -1,22 +1,60 @@
-FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
-USER root 
-# By default, listen on port 8081
-EXPOSE 8081/tcp
-ENV FLASK_PORT=8081
+ARG ALPINE_TAG=latest
+FROM alpine:${ALPINE_TAG}
+USER root
+LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
+    description="A Docker image with various network tools pre-installed."
 
-# Set the working directory in the container
-WORKDIR /projects
+RUN apk -U upgrade \
+    && apk add --no-cache \
+        apache2-utils \
+        bash \
+        bash-completion \
+        bind-tools \
+        ca-certificates \
+        coreutils \
+        curl \
+        drill \
+        findutils \
+        fping \
+        git \
+        gping \
+        ipcalc \
+        iperf \
+        iproute2 \
+        iputils \
+        jq \
+        libidn \
+        macchanger \
+        masscan \
+        mtr \
+        net-tools \
+        netcat-openbsd \
+        nftables \
+        ngrep \
+        nload \
+        nmap \
+        nmap-nping \
+        nmap-scripts \
+        oath-toolkit-oathtool \
+        openssh-client \
+        openssl \
+        procps \
+        socat \
+        speedtest-cli \
+        tcpdump \
+        tcptraceroute \
+        tshark \
+        wget \
+        python3 \
+    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing/ --no-cache \
+        envsubst \
+        grpcurl \
+        hping3 \
+    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community/ --no-cache \
+        arp-scan \
+        inetutils-telnet \
+        kcat \
+    && rm -rf /var/cache/apk/* \
+    && echo 'export PS1="[network-tools]\$ "' >> /root/.bash_profile
 
-# Copy the content of the local src directory to the working directory
-COPY . .
-
-# Install any dependencies
-RUN \
-  if [ -f requirements.txt ]; \
-    then pip install -r requirements.txt; \
-  elif [ `ls -1q *.txt | wc -l` == 1 ]; \
-    then pip install -r *.txt; \
-  fi
-
-# Specify the command to run on container start
-CMD [ "python", "./app.py" ]
+CMD ["/bin/bash", "--login"]
