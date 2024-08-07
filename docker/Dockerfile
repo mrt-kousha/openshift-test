@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9/python-39:1-117.1684741281
 USER root
-RUN yum -y update && yum install -y telnet sudo iputils hostname findutils less nano vim && yum -y clean all 
+RUN yum -y update && yum install -y sudo iputils hostname findutils less nano vim && yum -y clean all 
 # By default, listen on port 8081
 EXPOSE 8081/tcp
 ENV FLASK_PORT=8081
