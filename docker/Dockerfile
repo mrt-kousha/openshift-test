@@ -1,6 +1,6 @@
 ARG ALPINE_TAG=latest
 FROM alpine:${ALPINE_TAG}
-USER root
+
 LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
     description="A Docker image with various network tools pre-installed."
 
