@@ -1,8 +1,5 @@
-ARG ALPINE_TAG=latest
-FROM alpine:${ALPINE_TAG}
+FROM python:3.10.10-alpine
 
-LABEL maintainer="Jon LaBelle <https://jonlabelle.com>" \
-    description="A Docker image with various network tools pre-installed."
 
 
 RUN apk update && \
